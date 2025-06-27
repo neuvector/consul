@@ -83,17 +83,6 @@ type OTELSink struct {
 	mutex sync.Mutex
 }
 
-// NewOTELReader returns a configured OTEL PeriodicReader to export metrics every X seconds.
-// It configures the reader with a custom OTELExporter with a MetricsClient to transform and export
-// metrics in OTLP format to an external url.
-func NewOTELReader(client MetricsClient, endpointProvider EndpointProvider) otelsdk.Reader {
-	return otelsdk.NewPeriodicReader(
-		newOTELExporter(client, endpointProvider),
-		otelsdk.WithInterval(defaultExportInterval),
-		otelsdk.WithTimeout(defaultExportTimeout),
-	)
-}
-
 // NewOTELSink returns a sink which fits the Go Metrics MetricsSink interface.
 // It sets up a MeterProvider and Meter, key pieces of the OTEL Metrics SDK which
 // enable us to create OTEL Instruments to record measurements.

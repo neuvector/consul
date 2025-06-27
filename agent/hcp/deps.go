@@ -5,8 +5,8 @@ package hcp
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"time"
 
 	"github.com/armon/go-metrics"
 	hcpclient "github.com/hashicorp/consul/agent/hcp/client"
@@ -64,36 +64,5 @@ func sink(
 	hcpClient hcpclient.Client,
 	metricsClient telemetry.MetricsClient,
 ) (metrics.MetricSink, error) {
-	logger := hclog.FromContext(ctx).Named("sink")
-	reqCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
-	telemetryCfg, err := hcpClient.FetchTelemetryConfig(reqCtx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch telemetry config: %w", err)
-	}
-
-	if !telemetryCfg.MetricsEnabled() {
-		return nil, nil
-	}
-
-	cfgProvider, err := NewHCPProvider(ctx, hcpClient, telemetryCfg)
-	if err != nil {
-		return nil, fmt.Errorf("failed to init config provider: %w", err)
-	}
-
-	reader := telemetry.NewOTELReader(metricsClient, cfgProvider)
-	sinkOpts := &telemetry.OTELSinkOpts{
-		Reader:         reader,
-		ConfigProvider: cfgProvider,
-	}
-
-	sink, err := telemetry.NewOTELSink(ctx, sinkOpts)
-	if err != nil {
-		return nil, fmt.Errorf("failed create OTELSink: %w", err)
-	}
-
-	logger.Debug("initialized HCP metrics sink")
-
-	return sink, nil
+	return nil, errors.New("sink is not supported")
 }
