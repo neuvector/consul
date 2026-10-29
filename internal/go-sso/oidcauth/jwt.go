@@ -15,7 +15,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-jose/go-jose/v3/jwt"
+	jose "github.com/go-jose/go-jose/v4"
+	"github.com/go-jose/go-jose/v4/jwt"
 )
 
 const claimDefaultLeeway = 150
@@ -91,7 +92,7 @@ func (a *Authenticator) verifyVanillaJWT(ctx context.Context, loginToken string)
 			return nil, fmt.Errorf("failed to unmarshal claims: %v", err)
 		}
 	case authStaticKeys:
-		parsedJWT, err := jwt.ParseSigned(loginToken)
+		parsedJWT, err := jwt.ParseSigned(loginToken, []jose.SignatureAlgorithm{jose.ES256, jose.PS256, jose.EdDSA, jose.HS256})
 		if err != nil {
 			return nil, fmt.Errorf("error parsing token: %v", err)
 		}
