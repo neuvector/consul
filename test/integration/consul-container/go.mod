@@ -1,13 +1,13 @@
 module github.com/hashicorp/consul/test/integration/consul-container
 
-go 1.20
+go 1.24.0
 
 require (
 	fortio.org/fortio v1.54.0
 	github.com/avast/retry-go v3.0.0+incompatible
 	github.com/docker/docker v24.0.5+incompatible
 	github.com/docker/go-connections v0.4.0
-	github.com/go-jose/go-jose/v3 v3.0.0
+	github.com/go-jose/go-jose/v4 v4.1.6
 	github.com/hashicorp/consul/api v1.24.0
 	github.com/hashicorp/consul/envoyextensions v0.4.1
 	github.com/hashicorp/consul/sdk v0.14.1
@@ -77,7 +77,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/exp v0.0.0-20230807204917-050eac23e9de // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect

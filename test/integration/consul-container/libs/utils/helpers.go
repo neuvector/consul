@@ -94,7 +94,7 @@ func SignJWT(privKey string, claims jwt.Claims, privateClaims interface{}) (stri
 	raw, err := jwt.Signed(sig).
 		Claims(claims).
 		Claims(privateClaims).
-		CompactSerialize()
+		Serialize()
 	if err != nil {
 		return "", err
 	}

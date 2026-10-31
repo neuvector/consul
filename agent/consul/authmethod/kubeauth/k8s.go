@@ -96,7 +96,9 @@ func NewValidator(method *structs.ACLAuthMethod) (*Validator, error) {
 	if config.ServiceAccountJWT == "" {
 		return nil, fmt.Errorf("Config.ServiceAccountJWT is required")
 	}
-	if _, err := jwt.ParseSigned(config.ServiceAccountJWT, []jose.SignatureAlgorithm{jose.ES256, jose.PS256, jose.EdDSA, jose.HS256}); err != nil {
+	algorithms := []jose.SignatureAlgorithm{jose.EdDSA, jose.RS256, jose.RS384, jose.RS512,
+		jose.ES256, jose.ES384, jose.ES512, jose.PS256, jose.PS384, jose.PS512}
+	if _, err := jwt.ParseSigned(config.ServiceAccountJWT, algorithms); err != nil {
 		return nil, fmt.Errorf("Config.ServiceAccountJWT is not a valid JWT: %v", err)
 	}
 
@@ -133,7 +135,9 @@ func (v *Validator) Name() string { return v.name }
 func (v *Validator) Stop() {}
 
 func (v *Validator) ValidateLogin(ctx context.Context, loginToken string) (*authmethod.Identity, error) {
-	if _, err := jwt.ParseSigned(loginToken, []jose.SignatureAlgorithm{jose.ES256, jose.PS256, jose.EdDSA, jose.HS256}); err != nil {
+	algorithms := []jose.SignatureAlgorithm{jose.EdDSA, jose.RS256, jose.RS384, jose.RS512,
+		jose.ES256, jose.ES384, jose.ES512, jose.PS256, jose.PS384, jose.PS512}
+	if _, err := jwt.ParseSigned(loginToken, algorithms); err != nil {
 		return nil, fmt.Errorf("failed to parse and validate JWT: %v", err)
 	}
 
